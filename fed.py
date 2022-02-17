@@ -143,10 +143,10 @@ def evaluate(conversation, model, tokenizer):
       "negative": ["You don't understand me at all!", "I asked for something else"]
     },
     # E1 The system was easy to use and to understand.
-    # "e1_system_eou": {
-    #  "positive": [""],
-    #  "negative": [""]
-    #},
+     "e1_system_eou": {
+      "positive": ["That was easy!"],
+      "negative": [""]
+    },
     # E2 I knew at each point of the dialogue what the system expected from me.
      "e2_clear_instructions": {
       "positive": ["You give clear instructions!"],
