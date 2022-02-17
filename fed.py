@@ -114,8 +114,8 @@ def evaluate(conversation, model, tokenizer):
     },
      # A4 The course of the dialogue was smooth.
     "a4_smooth_dialog": {
-      "positive": [TODO],
-      "negative": [TODO]
+      "positive": ["That went smoothly."],
+      "negative": []
     },
     # A5v The dialogue was too long.
     "a5v_too_long": {
