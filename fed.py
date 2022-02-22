@@ -232,6 +232,6 @@ def evaluate(conversation, model, tokenizer):
       low_score += ls 
     low_score = low_score/max(len(neg), 1)
 
-    scores[metric] = (low_score - high_score)
+    scores[metric] = (high_score - low_score)
 
   return scores
