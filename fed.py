@@ -99,63 +99,63 @@ def evaluate(conversation, model, tokenizer):
   dialog_level_utts = {
     # A1 This chatbot was helpful.
     "a1_helpful": {
-      "positive": ["Thanks, this was helpful!", "You helped me a lot!", "Thanks for your help.", "Your answers are very good!"],
-      "negative": ["You are not helping at all.", "I need more help.", "This was frustrating."]
+      "positive": ["Thanks, this was helpful!", "You helped me a lot!", "Thanks for your help.", "Your answers are very good!", "Thank you for helping me!", "Great work, that helps!"],
+      "negative": ["You are not helping at all.", "I need more help.", "This was frustrating.", "I need more support.", "What you do not do yourself...", "You wasted my time"]
     },
     # A2 Overall, I was satisfied with the chatbot.
     "a2_satisfaction": {
-      "positive": ["I am satisfied now!", "Talking to you was a pleasant experience."],
-      "negative": ["I am very dissatisfied.", "Talking to you was unpleasant."]
+      "positive": ["I am satisfied now!", "Talking to you was a pleasant experience.", "That was great!"],
+      "negative": ["I am very dissatisfied.", "Talking to you was unpleasant.", "I'm very unhappy."]
     },
     # A3 I was able to interact efficiently with the chatbot.
     "a3_efficient_interaction": {
-      "positive": ["You always have the right answers!", "You understand my problem."],
-      "negative": ["You are not listening to me.", "Your answers are irrelevant.", "It's hard to talk to you."]
+      "positive": ["You always have the right answers!", "You understand my problem.", "You helped me quickly.", "That went faster than expected!"],
+      "negative": ["You are not listening to me.", "Your answers are irrelevant.", "It's hard to talk to you.", "This was lasting too long.", "You are too slow."]
     },
      # A4 The course of the dialogue was smooth.
     "a4_smooth_dialog": {
-      "positive": ["That went smoothly."],
-      "negative": []
+      "positive": ["That went smoothly.", "It was easy to follow you.", "Can you read minds?"],
+      "negative": ["That was exhausting.", "You should better listen to me!"]
     },
     # A5v The dialogue was too long.
     "a5v_too_long": {
-      "positive": ["Thanks, that did not take long!"],
-      "negative": ["It took a long time to resolve my issue."]
+      "positive": ["Thanks, that did not take long!", "That was short!"],
+      "negative": ["It took a long time to resolve my issue.", "I don't have that much time."]
     },
     # TE1 The answers and solutions proposed by the chatbot were clear.
      "te1_clear_answers": {
-      "positive": ["Your responses are always very clear.", "Your proposed solutions are easy to follow"],
-      "negative": ["Try being more clear!", "I did not understand your solutions."]
+      "positive": ["Your responses are always very clear.", "Your proposed solutions are easy to follow", "Great, I know what to do."],
+      "negative": ["Try being more clear!", "I did not understand your solutions.", "I'm confused!", "I have no idea."]
     },
     # TE2 The chatbot provided the desired information.
      "te2_desired_information": {
-      "positive": ["You give me all the information I needed!"],
-      "negative": ["I asked for something else!", "You could not answer my questions."]
+      "positive": ["You give me all the information I needed!", "Thanks, now I know!"],
+      "negative": ["I asked for something else!", "You could not answer my questions.", "Please answer my question!"]
     },
     # TE3 Misunderstandings could be cleared easily.
      "te3_misunderstandings_cleared": {
-      "positive": ["Now I understand.", "You helped me understand what you mean.", "You cleared any misunderstandings."],
-      "negative": ["I still don't understand.", "You are misunderstanding me."]
+      "positive": ["Now I understand.", "You helped me understand what you mean.", "You cleared any misunderstandings.", "Your explanation helps.],
+      "negative": ["I still don't understand.", "You are misunderstanding me.", "I'm still unsure"]
     },
     # SE I was well understood by the chatbot.
      "se_well_understood": {
-      "positive": ["You understand me well.", "You understand my problem."],
-      "negative": ["You don't understand me at all!", "I asked for something else"]
+      "positive": ["You understand me well.", "You understand my problem.", "You know what I want!", "I feel well understood."],
+      "negative": ["You don't understand me at all!", "I asked for something else", "You misunderstood me!"]
     },
     # E1 The system was easy to use and to understand.
      "e1_system_eou": {
-      "positive": ["That was easy!"],
-      "negative": [""]
+      "positive": ["That was easy!", "I know what to do.", "The usage was easy to learn.", "I know how the bot works."],
+      "negative": ["That's too complicated.", "I will never learn how to use it."]
     },
     # E2 I knew at each point of the dialogue what the system expected from me.
      "e2_clear_instructions": {
-      "positive": ["You give clear instructions!"],
-      "negative": ["Your instructions are not clear."]
+      "positive": ["You give clear instructions!", "Your questions are clear.", "You never behave unexpected."],
+      "negative": ["Your instructions are not clear.", "Often, you behave unexpected."]
     },
      # N The chatbot reacted naturally.
      "n_natural": {
-      "positive": [""],
-      "negative": ["Your responses are not natural."]
+      "positive": ["You behave like a human!", "Sometimes, I have the feeling that I am talking to a human.", "It was so natural to talk to you.", "Your reactions are so human-like"],
+      "negative": ["Your responses are not natural.", "You react like a robot", "It's clear, you are not a human."]
     },
     # P The chatbot reacted in a friendly way.
      "p_friendliness": {
@@ -164,13 +164,13 @@ def evaluate(conversation, model, tokenizer):
     },
     # PS I would like to advice my friends to use the chatbot if they are customers of Motorola.
      "ps_would_recommend": {
-      "positive": ["I will recommend you to my friends."],
-      "negative": []
+      "positive": ["I will recommend you to my friends.", "I will recommend you to others!"],
+      "negative": ["I will never recommend you to my friends!", "I would be ashamed to recommend you to anyone!"]
     },
     # SSS I was satisfied with the answer or solution offered to the given problem.
      "sss_solutions_satisfaction": {
-      "positive": ["The solution you proposed worked!", "You solved my issue!"],
-      "negative": ["Your solution was bad.", "Your answers don't help me with my problem."]
+      "positive": ["The solution you proposed worked!", "You solved my issue!", "The solution helped me a lot.", "The answer was satisfying.", "There is no solution, but I am happy to know."],
+      "negative": ["Your solution was bad.", "Your answers don't help me with my problem.", "My problem is still present", "The solution makes no sense.", "Your proposal makes no sense", "I have already tried everything you told me."]
     },
     "coherent": {
       "positive": [],
@@ -212,6 +212,10 @@ def evaluate(conversation, model, tokenizer):
       "positive": ["You ask a lot of questions!", "That's a lot of questions!"],
       "negative": ["You don't ask many questions.", "You don't seem interested."],
     },
+    "dummy":{
+      "positive": ["Elephants are grey.", "A house often has a door."],
+      "negative": ["The plural of mouse is mice", "A house usually has windows."],
+    }
   }
   for metric,utts in dialog_level_utts.items():
     pos = utts["positive"]
