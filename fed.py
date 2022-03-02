@@ -134,7 +134,7 @@ def evaluate(conversation, model, tokenizer):
     },
     # TE3 Misunderstandings could be cleared easily.
      "te3_misunderstandings_cleared": {
-      "positive": ["Now I understand.", "You helped me understand what you mean.", "You cleared any misunderstandings.", "Your explanation helps.],
+      "positive": ["Now I understand.", "You helped me understand what you mean.", "You cleared any misunderstandings.", "Your explanation helps."],
       "negative": ["I still don't understand.", "You are misunderstanding me.", "I'm still unsure"]
     },
     # SE I was well understood by the chatbot.
