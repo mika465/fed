@@ -213,8 +213,12 @@ def evaluate(conversation, model, tokenizer):
       "negative": ["You don't ask many questions.", "You don't seem interested."],
     },
     "dummy":{
-      "positive": ["Elephants are grey.", "A house often has a door."],
+      "positive": ["Elephants are animals.", "A house often has a door."],
       "negative": ["The plural of mouse is mice", "A house usually has windows."],
+    }
+    "dummy_reversed":{
+      "positive": ["The plural of mouse is mice", "A house usually has windows."],
+      "negative": ["Elephants are animals.", "A house often has a door."],
     }
   }
   for metric,utts in dialog_level_utts.items():
