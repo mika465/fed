@@ -219,6 +219,10 @@ def evaluate(conversation, model, tokenizer):
     "dummy_reversed":{
       "positive": ["The plural of mouse is mice", "A house usually has windows."],
       "negative": ["Elephants are animals.", "A house often has a door."],
+    },
+    "empty":{
+      "positive": [""],
+      "negative": [""],
     }
   }
   
