@@ -222,7 +222,7 @@ def evaluate(conversation, model, tokenizer):
     },
     "empty":{
       "positive": [""],
-      "negative": [""],
+      "negative": [],
     }
   }
   
