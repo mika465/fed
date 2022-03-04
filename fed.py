@@ -36,8 +36,8 @@ def score(text, tokenizer, model):
   with torch.no_grad():
       outputs = model(tensor_input, labels=tensor_input)
       loss, logits = outputs[:2]
-
-  return loss.item() 
+  # return negative loss: higher value means higher likelihood
+  return -loss.item() 
 
 def evaluate(conversation, model, tokenizer):
   scores = {}
