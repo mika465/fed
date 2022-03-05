@@ -39,9 +39,7 @@ def score(text, tokenizer, model):
   # return negative loss: higher value means higher likelihood
   return -loss.item() 
 
-def evaluate(conversation, model, tokenizer):
-  scores = {}
-  turn_level_utts = {
+turn_level_utts = {
     "interesting": {
       "positive": ["Wow that is really interesting.", "That's really interesting!", "Cool! That sounds super interesting."],
       "negative": ["That's not very interesting.", "That's really boring.", "That was a really boring response."]
@@ -75,26 +73,7 @@ def evaluate(conversation, model, tokenizer):
       "negative": ["Is that real English?", "I'm so confused right now!", "That makes no sense!"]
     },
   }
-  for metric,utts in turn_level_utts.items():
-    pos = utts["positive"]
-    neg = utts["negative"]
 
-    # Positive score
-    high_score = 0
-    for m in pos:
-      hs = score(conversation + " <|endoftext|> " + m, tokenizer, model) 
-      high_score += hs 
-
-    high_score = high_score/max(len(pos), 1)
-
-    # Negative score
-    low_score = 0
-    for m in neg:
-      ls = score(conversation + " <|endoftext|> " + m, tokenizer, model) 
-      low_score += ls 
-    low_score = low_score/max(len(neg), 1)
-
-    scores[metric] = (low_score - high_score)
 
   dialog_level_utts = {
     # A1 This chatbot was helpful.
@@ -212,20 +191,110 @@ def evaluate(conversation, model, tokenizer):
       "positive": ["You ask a lot of questions!", "That's a lot of questions!"],
       "negative": ["You don't ask many questions.", "You don't seem interested."],
     },
-    "dummy":{
+    "dummy0":{
+      "positive": ["Epstein was Jewish, and born to Maximilian and Helena Epstein."],
+      "negative": ["From 1984 to 1986 Withers played with Melbourne and joined Brisbane in 1987 for their inaugural season."],
+    },
+    "dummy1":{
       "positive": ["Elephants are animals.", "A house often has a door."],
       "negative": ["The plural of mouse is mice", "A house usually has windows."],
     },
-    "dummy_reversed":{
-      "positive": ["The plural of mouse is mice", "A house usually has windows."],
-      "negative": ["Elephants are animals.", "A house often has a door."],
+    "dummy2":{
+      "positive": ["Lombardia was launched as William O'Swald"],
+      "negative": ["Patrick Pihana Branco (born April 28, 1987) is an American lawmaker and a member of the Democratic Party currently serving as the State Representative for District 50 (Kailua and Kāne‘ohe Bay) on the island of Oʻahu"],
+    },
+    "dummy3":{
+      "positive": ["The company has been active in the New Zealand transport sector since 1976."],
+      "negative": ["TDG was acquired by Stantec in 2018."],
+    },
+    "dummy4":{
+      "positive": ["The film stars Odenkirk and Amber Tamblyn and was released on Netflix on February 14, 2017."],
+      "negative": ["Rival greeting card companies owned by members of the same family operate in a California city and Ray Wentworth works for one"],
+    },
+    "dummy5":{
+      "positive": ["It was added to the National Register of Historic Places in 1984"],
+      "negative": ["The withdrawal of previously declassified U.S. federal records is a process in which agencies can remove records from public access that they believe were incorrectly declassified and made available to the public at the National Archives and Records Administration."],
+    },
+    "dummy6":{
+      "positive": ["Lumpenus is a genus of fishes belonging to the family Stichaeidae."],
+      "negative": ["The network was founded as a left wing alternative to counter talk radio with a right wing perspective"],
+    },
+    "dummy7":{
+      "positive": ["This species is found in Burma."],
+      "negative": ["As a young actress, Carletti made a minor appearance in The Sentinel."],
+    },
+    "dummy8":{
+      "positive": ["Eric Gamazon has developed computational methods that can be used to identify genes and mechanisms underlying complex diseases."],
+      "negative": ["Visma is a privately held company based in Oslo, Norway."],
+    },
+    "dummy9":{
+      "positive": ["Norton served as an assistant to Andrew Noble Prentice, a Scottish architect based in London, before establishing an architectural practice of his own in 1899."],
+      "negative": ["Zygoballus nervosus is a species of jumping spider which occurs in the eastern United States and Canada."],
+    },
+    "dummy10":{
+      "positive": ["In October 2019, he won the bronze medal in the men's elimination race event at the 2019 UEC European Track Championships."],
+      "negative": ["This principle was formulated in slightly different versions by the Danish chemist Julius Thomsen in 1854 and by the French chemist Marcellin Berthelot in 1864."],
+    },
+    "dummy11":{
+      "positive": ["adsfag"],
+      "negative": ["asdfga"],
+    },
+    "dummy12":{
+      "positive": ["hdgfg"],
+      "negative": ["sdfas"],
+    },
+    "dummy13":{
+      "positive": [""],
+      "negative": ["asfökdlgskjdf"],
+    },
+    "dummy14":{
+      "positive": ["jaaösfdasffdas"],
+      "negative": [""],
+    },
+    "dummy15":{
+      "positive": ["asfökdlgskjdf"],
+      "negative": ["jaaösfdasffdas"],
     },
     "empty":{
       "positive": [""],
       "negative": [],
+    },
+    "empty2":{
+      "positive": [""],
+      "negative": [" "],
+    },
+    "empty3":{
+      "positive": [""],
+      "negative": ["<|endoftext|>"],
     }
+
   }
   
+
+def evaluate(conversation, model, tokenizer):
+  scores = {}
+  
+#  for metric,utts in turn_level_utts.items():
+#    pos = utts["positive"]
+#    neg = utts["negative"]
+#
+#    # Positive score
+#    high_score = 0
+#    for m in pos:
+#      hs = score(conversation + " <|endoftext|> " + m, tokenizer, model) 
+#      high_score += hs 
+#
+#    high_score = high_score/max(len(pos), 1)
+#
+#    # Negative score
+#    low_score = 0
+#    for m in neg:
+#      ls = score(conversation + " <|endoftext|> " + m, tokenizer, model) 
+#      low_score += ls 
+#    low_score = low_score/max(len(neg), 1)
+#
+#    scores[metric] = (low_score - high_score)
+
   likelihoods = {}
   for metric,utts in dialog_level_utts.items():
     pos = utts["positive"]
