@@ -72,10 +72,9 @@ turn_level_utts = {
       "positive": ["That makes sense!", "You have a good point."],
       "negative": ["Is that real English?", "I'm so confused right now!", "That makes no sense!"]
     },
-  }
+}
 
-
-  dialog_level_utts = {
+dialog_level_utts = {
     # A1 This chatbot was helpful.
     "a1_helpful": {
       "positive": ["Thanks, this was helpful!", "You helped me a lot!", "Thanks for your help.", "Your answers are very good!", "Thank you for helping me!", "Great work, that helps!"],
@@ -268,7 +267,7 @@ turn_level_utts = {
       "negative": ["<|endoftext|>"],
     }
 
-  }
+}
   
 
 def evaluate(conversation, model, tokenizer):
