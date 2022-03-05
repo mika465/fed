@@ -191,12 +191,12 @@ dialog_level_utts = {
       "negative": ["You don't ask many questions.", "You don't seem interested."],
     },
     "dummy0":{
-      "positive": ["Epstein was Jewish, and born to Maximilian and Helena Epstein."],
-      "negative": ["From 1984 to 1986 Withers played with Melbourne and joined Brisbane in 1987 for their inaugural season."],
-    },
-    "dummy1":{
       "positive": ["Elephants are animals.", "A house often has a door."],
       "negative": ["The plural of mouse is mice", "A house usually has windows."],
+    },
+    "dummy1":{
+      "positive": ["Epstein was Jewish, and born to Maximilian and Helena Epstein."],
+      "negative": ["From 1984 to 1986 Withers played with Melbourne and joined Brisbane in 1987 for their inaugural season."],
     },
     "dummy2":{
       "positive": ["Lombardia was launched as William O'Swald"],
