@@ -93,7 +93,7 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
 #  print(lm_loss.shape)
 #  print(lm_loss.view(len(texts), -1).shape)
 #  return lm_loss.view(len(texts), -1)
-  return torch.zeros(8000).view(len(texts), -1)
+  return torch.zeros(len(texts)*100).view(len(texts), -1)
 
 turn_level_utts = {
     "interesting": {
