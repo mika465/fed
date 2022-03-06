@@ -426,18 +426,17 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
 #    idx += len(neg)
 #    scores[metric] = (low_score - high_score)
 
-  texts = []
   
   first2dialog_level_utts = {k: dialog_level_utts[k] for k in list(dialog_level_utts)[:]}
   for metric, utts in first2dialog_level_utts.items():
+    texts = []
     pos, neg = utts["positive"], utts['negative']
     for m in pos:
       texts.append(conversation + " <|endoftext|> " + m)
     for m in neg:
       texts.append(conversation + " <|endoftext|> " + m)
-  loss = score_batch(texts, tokenizer, model, batch_size=max_batch_size, max_seq_length=max_seq_length, device=device)
-  idx = 0
-  for metric, utts in dialog_level_utts.items():
+    loss = score_batch(texts, tokenizer, model, batch_size=max_batch_size, max_seq_length=max_seq_length, device=device)
+    idx = 0
     pos, neg = utts["positive"], utts['negative']
     if len(pos) > 0:
       high_score = loss[idx: idx + len(pos), :].mean().item()
@@ -450,8 +449,8 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
       low_score = 0
     idx += len(neg)
     scores[metric] = (low_score - high_score)
+    del loss
   print("return")
-  del loss
   del low_score
   del high_score
   del texts
