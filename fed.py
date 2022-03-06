@@ -391,6 +391,10 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
     max_batch_size = 4
     max_seq_length = 64
     device = 'cuda'
+  elif truncate_type == 'none':
+    max_batch_size = -1
+    max_seq_length = 1024
+    device = 'cuda'
 
 
 #  texts = []
