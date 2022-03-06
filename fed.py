@@ -85,7 +85,6 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
             attention_mask=attention_mask[i:i + batch_size, :], \
             labels=input_ids[i:i + batch_size, :])
           logits.append(outputs[1])
-          print(outputs[1].shape)
           del outputs
         logits = torch.cat(logits, dim=0)
   shifted_logits = logits[:, :-1, :].contiguous()
@@ -93,8 +92,6 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
   loss_fct = CrossEntropyLoss(reduction='none')
   lm_loss = loss_fct(shifted_logits.view(-1, model.config.vocab_size), labels.view(-1))
   
-  print(lm_loss.shape)
-  print(lm_loss.view(len(texts), -1).shape)
   return lm_loss.view(len(texts), -1)
   #return torch.zeros(len(texts))
 
@@ -431,7 +428,7 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
 
   texts = []
   
-  first2dialog_level_utts = {k: dialog_level_utts[k] for k in list(dialog_level_utts)[:2]}
+  first2dialog_level_utts = {k: dialog_level_utts[k] for k in list(dialog_level_utts)[:]}
   for metric, utts in first2dialog_level_utts.items():
     pos, neg = utts["positive"], utts['negative']
     for m in pos:
