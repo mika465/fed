@@ -97,7 +97,7 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
       del outputs
       del input_ids
       del attention_mask
-      del text_batches
+      del text_batchs
       del tokenized
       return lm_loss.view(len(texts), -1)
 
