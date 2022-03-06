@@ -422,7 +422,7 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
 #    scores[metric] = (low_score - high_score)
 
   texts = []
-  for metric, utts in dialog_level_utts.items():
+  for metric, utts in dialog_level_utts.items()[:2]:
     pos, neg = utts["positive"], utts['negative']
     for m in pos:
       texts.append(conversation + " <|endoftext|> " + m)
