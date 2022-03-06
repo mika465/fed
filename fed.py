@@ -76,7 +76,7 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
         print(len(attention_mask))
         print(input_ids[0].shape)
         
-        outputs = model(input_ids[0], labels=input_ids[0])
+        outputs = model(input_ids[:1], labels=input_ids[:1])
 #        logits = outputs[1]
 #      else:
 #        logits = []
