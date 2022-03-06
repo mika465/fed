@@ -438,13 +438,13 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
   for metric, utts in dialog_level_utts.items():
     pos, neg = utts["positive"], utts['negative']
     if len(pos) > 0:
-      print(type(loss[idx: idx + len(pos), :].mean().item())
+      print(type(loss[idx: idx + len(pos), :].mean().item()))
       high_score = loss[idx: idx + len(pos), :].mean().item()
     else:
       high_score = 0
     idx += len(pos)
     if len(neg) > 0:
-      print(type(loss[idx: idx + len(neg), :].mean().item())
+      print(type(loss[idx: idx + len(neg), :].mean().item()))
       low_score = loss[idx: idx + len(neg), :].mean().item()
     else:
       low_score = 0
