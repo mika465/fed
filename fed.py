@@ -39,6 +39,58 @@ def score(text, tokenizer, model):
   # return negative loss: higher value means higher likelihood
   return -loss.item() 
 
+# from https://github.com/exe1023/DialEvalMetrics/blob/main/usr_fed/fed/fed.py
+def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, device='cpu'):
+  '''
+  texts: list of string
+  tokenizer, model: pretrained tokenizer ana model from HuggingFace transformers
+  batch_size: specify the batch size you want to use in inference. -1 means packing all queries in 1 batch.
+  max_seq_length: specify the maximum sequence length after tokenization. Max: 1024
+  device: which device to use. "cuda", "cpu"
+  '''
+  # make sure all text will in 1024:
+  text_batchs = []
+  for text in texts:
+    tokenized = tokenizer.tokenize(text)
+    if len(tokenized) > max_seq_length:
+      tokenized = tokenized[-(max_seq_length):]
+      tokenized[0] = tokenizer.eos_token # max sure we have special token at beginning.
+    text_batchs.append(tokenized)
+
+  # pad the input and generate attention mask
+  pad_idx = tokenizer.convert_tokens_to_ids([tokenizer.eos_token])
+  token_ids = [tokenizer.convert_tokens_to_ids(s) for s in text_batchs]
+  max_text_length = max([len(s) for s in token_ids])
+  padded_tokens = [tok_ids + (pad_idx * (max_text_length - len(tok_ids))) for tok_ids in token_ids]
+  input_ids = torch.tensor(padded_tokens)
+  attention_mask = torch.zeros(input_ids.shape).long()
+  for idx, tok_ids in enumerate(token_ids):
+    attention_mask[idx][:len(tok_ids)] = 1
+
+  model = model.to(device)
+  input_ids = input_ids.to(device)
+  attention_mask = attention_mask.to(device)
+
+  with torch.no_grad():
+      if batch_size == -1:
+        outputs = model(input_ids, attention_mask=attention_mask, labels=input_ids)
+        logits = outputs[1]
+      else:
+        logits = []
+        for i in range(0, input_ids.size(0), batch_size):
+          outputs = model(input_ids[i:i + batch_size, :], \
+            attention_mask=attention_mask[i:i + batch_size, :], \
+            labels=input_ids[i:i + batch_size, :])
+          logits.append(outputs[1])
+        logits = torch.cat(logits, dim=0)
+  shifted_logits = logits[:, :-1, :].contiguous()
+  labels = input_ids[:, 1:].contiguous()
+  loss_fct = CrossEntropyLoss(reduction='none')
+  lm_loss = loss_fct(shifted_logits.view(-1, model.config.vocab_size), labels.view(-1))
+
+  return lm_loss.view(len(texts), -1)
+
+
 turn_level_utts = {
     "interesting": {
       "positive": ["Wow that is really interesting.", "That's really interesting!", "Cool! That sounds super interesting."],
@@ -270,7 +322,7 @@ dialog_level_utts = {
 }
   
 
-def evaluate(conversation, model, tokenizer):
+def evaluate_original(conversation, model, tokenizer):
   scores = {}
   
 #  for metric,utts in turn_level_utts.items():
@@ -323,3 +375,71 @@ def evaluate(conversation, model, tokenizer):
     scores[metric] = (high_score - low_score)
 
   return scores, likelihoods
+
+
+def evaluate(conversation, model, tokenizer, truncate_type='normal'):
+  scores = {}
+
+  if truncate_type == 'no_truncate':
+    max_batch_size = 1
+    max_seq_length = 1024
+    device = 'cuda'
+  elif truncate_type == 'normal':
+    max_batch_size = 2
+    max_seq_length = 128
+    device = 'cuda'
+  elif truncate_type == 'more':
+    max_batch_size = 4
+    max_seq_length = 64
+    device = 'cuda'
+
+
+#  texts = []
+#  for metric, utts in turn_level_utts.items():
+#    pos, neg = utts["positive"], utts['negative']
+#    for m in pos:
+#      texts.append(conversation + " <|endoftext|> " + m)
+#    for m in neg:
+#      texts.append(conversation + " <|endoftext|> " + m)
+#
+#  loss = score_batch(texts, tokenizer, model, batch_size=max_batch_size, max_seq_length=max_seq_length, device=device)
+#  idx = 0
+#  for metric, utts in turn_level_utts.items():
+#    pos, neg = utts["positive"], utts['negative']
+#    if len(pos) > 0:
+#      high_score = loss[idx: idx + len(pos), :].mean().item()
+#    else:
+#      high_score = 0
+#    idx += len(pos)
+#    if len(neg) > 0:
+#      low_score = loss[idx: idx + len(neg), :].mean().item()
+#    else:
+#      low_score = 0
+#    idx += len(neg)
+#    scores[metric] = (low_score - high_score)
+
+  texts = []
+  for metric, utts in dialog_level_utts.items():
+    pos, neg = utts["positive"], utts['negative']
+    for m in pos:
+      texts.append(conversation + " <|endoftext|> " + m)
+    for m in neg:
+      texts.append(conversation + " <|endoftext|> " + m)
+  loss = score_batch(texts, tokenizer, model, batch_size=max_batch_size, max_seq_length=max_seq_length, device=device)
+  idx = 0
+  for metric, utts in dialog_level_utts.items():
+    pos, neg = utts["positive"], utts['negative']
+    if len(pos) > 0:
+      high_score = loss[idx: idx + len(pos), :].mean().item()
+    else:
+      high_score = 0
+    idx += len(pos)
+    if len(neg) > 0:
+      low_score = loss[idx: idx + len(neg), :].mean().item()
+    else:
+      low_score = 0
+    idx += len(neg)
+    scores[metric] = (low_score - high_score)
+
+
+  return scores
