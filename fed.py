@@ -70,31 +70,33 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
   input_ids = input_ids.cuda()
   attention_mask = attention_mask.cuda()
 
+  batch_size = 1
   with torch.no_grad():
       if batch_size == -1:
         print(len(input_ids))
         print(len(attention_mask))
-        print(input_ids[0].shape)
-        
-        outputs = model(input_ids[:1], labels=input_ids[:1])
-#        logits = outputs[1]
-#      else:
-#        logits = []
-#        for i in range(0, input_ids.size(0), batch_size):
-#          outputs = model(input_ids[i:i + batch_size, :], \
-#            attention_mask=attention_mask[i:i + batch_size, :], \
-#            labels=input_ids[i:i + batch_size, :])
-#          logits.append(outputs[1])
-#        logits = torch.cat(logits, dim=0)
-#  shifted_logits = logits[:, :-1, :].contiguous()
-#  labels = input_ids[:, 1:].contiguous()
-#  loss_fct = CrossEntropyLoss(reduction='none')
-#  lm_loss = loss_fct(shifted_logits.view(-1, model.config.vocab_size), labels.view(-1))
-#  
-#  print(lm_loss.shape)
-#  print(lm_loss.view(len(texts), -1).shape)
-#  return lm_loss.view(len(texts), -1)
-  return torch.zeros(len(texts)*100).view(len(texts), -1)
+        print(len(input_ids))
+        outputs = model(input_ids, attention_mask=attention_mask, labels=input_ids)
+        logits = outputs[1]
+      else:
+        logits = []
+        for i in range(0, input_ids.size(0), batch_size):
+          outputs = model(input_ids[i:i + batch_size, :], \
+            attention_mask=attention_mask[i:i + batch_size, :], \
+            labels=input_ids[i:i + batch_size, :])
+          logits.append(outputs[1])
+          print(outputs[1].shape)
+          del outputs[1]
+        logits = torch.cat(logits, dim=0)
+  shifted_logits = logits[:, :-1, :].contiguous()
+  labels = input_ids[:, 1:].contiguous()
+  loss_fct = CrossEntropyLoss(reduction='none')
+  lm_loss = loss_fct(shifted_logits.view(-1, model.config.vocab_size), labels.view(-1))
+  
+  print(lm_loss.shape)
+  print(lm_loss.view(len(texts), -1).shape)
+  return lm_loss.view(len(texts), -1)
+  #return torch.zeros(len(texts))
 
 turn_level_utts = {
     "interesting": {
