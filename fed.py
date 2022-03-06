@@ -86,7 +86,7 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
             labels=input_ids[i:i + batch_size, :])
           logits.append(outputs[1])
           print(outputs[1].shape)
-          del outputs[1]
+          del outputs
         logits = torch.cat(logits, dim=0)
   shifted_logits = logits[:, :-1, :].contiguous()
   labels = input_ids[:, 1:].contiguous()
