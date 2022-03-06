@@ -74,8 +74,9 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
       if batch_size == -1:
         print(len(input_ids))
         print(len(attention_mask))
-        print(len(input_ids))
-        outputs = model(input_ids, labels=input_ids)
+        print(input_ids.shape)
+        
+#        outputs = model(input_ids, labels=input_ids)
 #        logits = outputs[1]
 #      else:
 #        logits = []
