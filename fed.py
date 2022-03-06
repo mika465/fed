@@ -66,9 +66,9 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
   for idx, tok_ids in enumerate(token_ids):
     attention_mask[idx][:len(tok_ids)] = 1
 
-  model = model.to(device)
-  input_ids = input_ids.to(device)
-  attention_mask = attention_mask.to(device)
+  #model = model.to(device)
+  input_ids = input_ids.cuda()
+  attention_mask = attention_mask.cuda()
 
   with torch.no_grad():
       if batch_size == -1:
