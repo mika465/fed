@@ -85,12 +85,12 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
             labels=input_ids[i:i + batch_size, :])
           logits.append(outputs[1])
         logits = torch.cat(logits, dim=0)
-  shifted_logits = logits[:, :-1, :].contiguous()
-  labels = input_ids[:, 1:].contiguous()
-  loss_fct = CrossEntropyLoss(reduction='none')
-  lm_loss = loss_fct(shifted_logits.view(-1, model.config.vocab_size), labels.view(-1))
-  print(lm_loss)
-  return lm_loss.view(len(texts), -1)
+      shifted_logits = logits[:, :-1, :].contiguous()
+      labels = input_ids[:, 1:].contiguous()
+      loss_fct = CrossEntropyLoss(reduction='none')
+      lm_loss = loss_fct(shifted_logits.view(-1, model.config.vocab_size), labels.view(-1))
+      print(lm_loss)
+      return lm_loss.view(len(texts), -1)
 
 
 turn_level_utts = {
@@ -438,18 +438,17 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
   for metric, utts in dialog_level_utts.items():
     pos, neg = utts["positive"], utts['negative']
     if len(pos) > 0:
-      print(type(loss[idx: idx + len(pos), :].mean().item()))
       high_score = loss[idx: idx + len(pos), :].mean().item()
     else:
       high_score = 0
     idx += len(pos)
     if len(neg) > 0:
-      print(type(loss[idx: idx + len(neg), :].mean().item()))
       low_score = loss[idx: idx + len(neg), :].mean().item()
     else:
       low_score = 0
     idx += len(neg)
     scores[metric] = (low_score - high_score)
   print("return")
+  del loss
 
   return scores
