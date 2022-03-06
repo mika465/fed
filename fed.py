@@ -91,7 +91,7 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
 #  lm_loss = loss_fct(shifted_logits.view(-1, model.config.vocab_size), labels.view(-1))
 #  print(lm_loss)
 # return lm_loss.view(len(texts), -1)
-  return torch-zeros(len(texts))
+  return torch.zeros(len(texts))
 
 turn_level_utts = {
     "interesting": {
