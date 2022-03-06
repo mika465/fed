@@ -90,6 +90,15 @@ def score_batch(texts, tokenizer, model, batch_size=-1, max_seq_length=1024, dev
       loss_fct = CrossEntropyLoss(reduction='none')
       lm_loss = loss_fct(shifted_logits.view(-1, model.config.vocab_size), labels.view(-1))
       print(lm_loss)
+      del loss_fct
+      del labels
+      del logits
+      del shifted_logits
+      del outputs
+      del input_ids
+      del attention_mask
+      del text_batches
+      del tokenized
       return lm_loss.view(len(texts), -1)
 
 
@@ -450,5 +459,9 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
     scores[metric] = (low_score - high_score)
   print("return")
   del loss
+  del low_score
+  del high_score
+  del texts
+  del first2dialog_level_utts
 
   return scores
