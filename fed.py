@@ -457,3 +457,39 @@ def evaluate(conversation, model, tokenizer, truncate_type='normal'):
   del first2dialog_level_utts
 
   return scores
+
+
+
+def evaluate_custom(conversation, model, tokenizer):
+  scores = {}
+  likelihoods = {}
+  
+  for metric,utts in dialog_level_utts.items():
+    pos = utts["positive"]
+    neg = utts["negative"]
+
+    likelihoods[metric] = {}
+    likelihoods[metric]["positive"] = []
+    likelihoods[metric]["negative"] = []
+    
+    # Positive
+    high_score = 0
+    for m in pos:
+      hs = score(conversation + " <|endoftext|> " + m, tokenizer, model) - score(conversation, tokenizer, model)
+      high_score += hs 
+      likelihoods[metric]["positive"].append(hs)
+
+    high_score = high_score/max(len(pos), 1)
+
+    # Negative
+    low_score = 0
+    for m in neg:
+      ls = score(conversation + " <|endoftext|> " + m, tokenizer, model) - score(conversation, tokenizer, model)
+      low_score += ls 
+      likelihoods[metric]["negative"].append(ls)
+    low_score = low_score/max(len(neg), 1)
+
+    scores[metric] = (high_score - low_score)
+
+  return scores, likelihoods
+
