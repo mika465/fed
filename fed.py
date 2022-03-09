@@ -474,8 +474,10 @@ def evaluate_custom(conversation, model, tokenizer):
     
     # Positive
     high_score = 0
+    likelihood_dialog = score(conversation, tokenizer, model)
     for m in pos:
-      hs = score(conversation + " <|endoftext|> " + m, tokenizer, model) - score(conversation, tokenizer, model)
+      # add likelihood change
+      hs = score(conversation + " <|endoftext|> " + m, tokenizer, model) - likelihood_dialog
       high_score += hs 
       likelihoods[metric]["positive"].append(hs)
 
@@ -484,7 +486,8 @@ def evaluate_custom(conversation, model, tokenizer):
     # Negative
     low_score = 0
     for m in neg:
-      ls = score(conversation + " <|endoftext|> " + m, tokenizer, model) - score(conversation, tokenizer, model)
+      # add likelihood change
+      ls = score(conversation + " <|endoftext|> " + m, tokenizer, model) - likelihood_dialog
       low_score += ls 
       likelihoods[metric]["negative"].append(ls)
     low_score = low_score/max(len(neg), 1)
