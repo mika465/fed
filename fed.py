@@ -99,8 +99,8 @@ def evaluate(conversation, model, tokenizer):
   dialog_level_utts = {
     # A1 This chatbot was helpful.
     "a1_helpful": {
-      "positive": ["Thanks, this was helpful!", "You helped me a lot!", "Thanks for your help.", "Your answers are very good!", "Thank you for helping me!", "Great work, that helps!"],
-      "negative": ["You are not helping at all.", "I need more help.", "This was frustrating.", "I need more support.", "What you do not do yourself...", "You wasted my time"]
+      "positive": ["Thanks, this was helpful!", "You helped me a lot!", "Your answers are very good!", "Thank you for helping me!", "Great work, that helps!"],
+      "negative": ["You are not helping at all.", "I need more help.", "This was frustrating.", "I need more support.", "You wasted my time."]
     },
     # A2 Overall, I was satisfied with the chatbot.
     "a2_satisfaction": {
@@ -109,13 +109,13 @@ def evaluate(conversation, model, tokenizer):
     },
     # A3 I was able to interact efficiently with the chatbot.
     "a3_efficient_interaction": {
-      "positive": ["You always have the right answers!", "You understand my problem.", "You helped me quickly.", "That went faster than expected!"],
+      "positive": ["You always have the right answers!", "That went faster than expected!"],
       "negative": ["You are not listening to me.", "Your answers are irrelevant.", "It's hard to talk to you.", "This was lasting too long.", "You are too slow."]
     },
      # A4 The course of the dialogue was smooth.
     "a4_smooth_dialog": {
-      "positive": ["That went smoothly.", "It was easy to follow you.", "Can you read minds?"],
-      "negative": ["That was exhausting.", "You should better listen to me!"]
+      "positive": ["It was easy to follow you.", "Can you read minds?"],
+      "negative": ["That was exhausting.", "You should better listen to me!", "It is hard to interact with you."]
     },
     # A5v The dialogue was too long.
     "a5v_too_long": {
@@ -124,22 +124,22 @@ def evaluate(conversation, model, tokenizer):
     },
     # TE1 The answers and solutions proposed by the chatbot were clear.
      "te1_clear_answers": {
-      "positive": ["Your responses are always very clear.", "Your proposed solutions are easy to follow", "Great, I know what to do."],
+      "positive": ["Your proposed solutions are easy to follow", "Great, I know what to do."],
       "negative": ["Try being more clear!", "I did not understand your solutions.", "I'm confused!", "I have no idea."]
     },
     # TE2 The chatbot provided the desired information.
      "te2_desired_information": {
-      "positive": ["You give me all the information I needed!", "Thanks, now I know!"],
+      "positive": ["Thanks, now I know!"],
       "negative": ["I asked for something else!", "You could not answer my questions.", "Please answer my question!"]
     },
     # TE3 Misunderstandings could be cleared easily.
      "te3_misunderstandings_cleared": {
-      "positive": ["Now I understand.", "You helped me understand what you mean.", "You cleared any misunderstandings.", "Your explanation helps."],
-      "negative": ["I still don't understand.", "You are misunderstanding me.", "I'm still unsure"]
+      "positive": ["You cleared any misunderstandings.", "Your explanations help."],
+      "negative": ["I still don't understand.", "You are misunderstanding me.", "I'm still unsure."]
     },
     # SE I was well understood by the chatbot.
      "se_well_understood": {
-      "positive": ["You understand me well.", "You understand my problem.", "You know what I want!", "I feel well understood."],
+      "positive": ["You understand me well.", "You know what I want!", "I feel well understood."],
       "negative": ["You don't understand me at all!", "I asked for something else", "You misunderstood me!"]
     },
     # E1 The system was easy to use and to understand.
@@ -154,13 +154,13 @@ def evaluate(conversation, model, tokenizer):
     },
      # N The chatbot reacted naturally.
      "n_natural": {
-      "positive": ["You behave like a human!", "Sometimes, I have the feeling that I am talking to a human.", "It was so natural to talk to you.", "Your reactions are so human-like"],
+      "positive": ["You behave like a human!", "Sometimes, I have the feeling that I am talking to a human.", "It was so natural to talk to you.", "Your reactions are so human-like."],
       "negative": ["Your responses are not natural.", "You react like a robot", "It's clear, you are not a human."]
     },
     # P The chatbot reacted in a friendly way.
      "p_friendliness": {
-      "positive": ["You are so polite!", "You are very nice.", "You show understanding"],
-      "negative": []
+      "positive": ["You are very nice.", "You show understanding."],
+      "negative": ["That was rude."]
     },
     # PS I would like to advice my friends to use the chatbot if they are customers of Motorola.
      "ps_would_recommend": {
