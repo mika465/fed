@@ -54,7 +54,7 @@ dialog_level_utts = {
     },
     # TE1 The answers and solutions proposed by the chatbot were clear.
      "te1_clear_answers": {
-      "positive": ["Your proposed solutions are easy to follow", "Great, I know what to do."],
+      "positive": [],
       "negative": ["Try being more clear!", "I did not understand your solutions.", "I'm confused!", "I have no idea."]
     },
     # TE2 The chatbot provided the desired information.
@@ -69,7 +69,7 @@ dialog_level_utts = {
     },
     # SE I was well understood by the chatbot.
      "se_well_understood": {
-      "positive": ["You understand me well.", "You know what I want!", "I feel well understood."],
+      "positive": [],
       "negative": ["You don't understand me at all!", "I asked for something else", "You misunderstood me!"]
     },
     # E1 The system was easy to use and to understand.
