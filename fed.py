@@ -173,7 +173,7 @@ dialog_level_utts = {
     },
     # SE I was well understood by the chatbot.
      "se_well_understood": {
-      "positive": ["You understand me well.", "You understand my problem.", "You know what I want!", "I feel well understood."],
+      "positive": [],
       "negative": ["You don't understand me at all!", "I asked for something else", "You misunderstood me!"]
     },
     # E1 The system was easy to use and to understand.
